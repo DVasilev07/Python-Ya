@@ -1,0 +1,70 @@
+from sklearn import model_selection, datasets, linear_model, metrics
+
+import sklearn
+import numpy as np
+import pandas as pd
+
+# Генерация датасета digits
+digits = datasets.load_digits()
+print digits.data
+print digits.target
+## Деление датасета на обучающий и тестовый
+# Alarm!!!! train_test_split перенесли в model_selection из cross_validation!!!!
+from sklearn.model_selection import train_test_split
+train_data, test_data, train_labels, test_labels = model_selection.train_test_split(digits.data, digits.target,
+test_size=0.25, random_state=0)
+
+from sklearn import neighbors
+
+
+import random
+import math
+import pylab as pl
+import numpy as np
+
+
+
+#Main classification procedure
+def classifyKNN (trainData, testData, k, numberOfClasses):
+    #Euclidean distance between 2-dimensional point
+    def dist (a, b):
+        return math.sqrt((a[0] - b[0])**2 + (a[1] - b[1])**2)
+    testLabels = []
+    for testPoint in testData:
+        #Claculate distances between test point and all of the train points
+        testDist = [ [dist(testPoint, trainData[i][0]), trainData[i][1]] for i in range(len(trainData))]
+        #How many points of each class among nearest K
+        stat = [0 for i in range(numberOfClasses)]
+        for d in sorted(testDist)[0:k]:
+            stat[d[1]] += 1
+        #Assign a class with the most number of occurences among K nearest neighbours
+        testLabels.append( sorted(zip(stat, range(numberOfClasses)), reverse=True)[0][1] )
+    return testLabels
+    
+    
+# Функция расчета метрики (Евклидово расстояние в данном случае)
+def dist_n (vector0, vector1):
+        s = 0.
+        for i in range(len(vector0)):
+                      a = (vector0[i] - vector1[i])**2 
+                      s = s + a                
+        return math.sqrt(s)
+            
+# Test
+a = np.array([2., 3., 3.])
+b = np.array([1., 5., 3.])
+dist_n(a,b)
+
+
+# Посчитаем матрицу удаленности для одного вектора тестового набора от всех векторов обучающей выборки
+for testPoint in test_data:
+    for j in range(len(train_data)):
+        testDist= [ dist_n(testPoint,train_data[j]) ]
+        
+        
+print test_data.shape
+print train_data.shape
+print test_labels.shape
+print train_labels.shape
+        
+print testDist
