@@ -1,0 +1,12 @@
+# Функция расчета метрики (Евклидово расстояние в данном случае)
+def dist_n (vector0, vector1):
+        s = 0.
+        for i in range(len(vector0)):
+                      a = (vector0[i] - vector1[i])**2 
+                      s = s + a                
+        return math.sqrt(s)
+            
+# Test
+a = np.array([2., 3., 3.])
+b = np.array([1., 5., 3.])
+dist_n(a,b)
