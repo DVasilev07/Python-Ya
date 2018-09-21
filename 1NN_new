@@ -1,0 +1,80 @@
+from sklearn import model_selection, datasets, linear_model, metrics
+
+import math
+import sklearn
+import numpy as np
+import pandas as pd
+
+
+
+# Генерация датасета digits
+digits = datasets.load_digits()
+print digits.data
+print digits.target
+## Деление датасета на обучающий и тестовый
+# Alarm!!!! train_test_split перенесли в model_selection из cross_validation!!!!
+from sklearn.model_selection import train_test_split
+train_data, test_data, train_labels, test_labels = model_selection.train_test_split(digits.data, digits.target,
+test_size=0.25, random_state=0)
+
+
+
+# Функция расчета метрики (Евклидово расстояние в данном случае)
+def dist_n (vector0, vector1):
+        s = 0.
+        for i in range(len(vector0)):
+                      a = (vector0[i] - vector1[i])**2 
+                      s = s + a                
+        return math.sqrt(s)
+            
+# Test
+a = np.array([2., 3., 3.])
+b = np.array([1., 5., 3.])
+dist_n(a,b)
+
+
+
+#ver 1 Посчитаем матрицу удаленности для одного вектора тестового набора от всех векторов обучающей выборки
+testDist_mas = np.array([])
+for testPoint in test_data:
+    for j in range(len(train_data)):
+        testDist= [ dist_n(testPoint,train_data[j]) ]
+        testDist_mas = np.append(testDist_mas,testDist)
+        
+        
+        
+        
+#ver 2 Посчитаем матрицу удаленности для одного вектора тестового набора от всех векторов обучающей выборки c выводом метки класса обучающй выборки
+testDist_m= list()
+for testPoint in test_data:
+    testDist = [[dist_n(testPoint,train_data[j]),train_labels[j]] for j in range(len(train_data)) ]
+    testDist_m.append(testDist)
+
+
+testDist_m
+b = np.array(testDist_m)
+b.shape
+print b
+
+
+#!!!!! Добавление элемента массива в функции
+w = np.array([])
+for j in range(len(train_data)):
+    #k = [j]
+    w = np.append(w, j)
+    print w
+
+
+# Просто заполнение как пример
+a = [[i,i]for i in range(len(train_data))]
+print a
+
+
+#!!!!!!! Лист в массив
+a = [[i,i]for i in range(len(train_data))]
+print a
+#a это лист
+# сделаем из листа массив b
+b = np.array(a)
+b.shape
+
