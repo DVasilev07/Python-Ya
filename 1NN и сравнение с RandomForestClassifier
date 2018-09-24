@@ -1,0 +1,150 @@
+from sklearn import model_selection, datasets, linear_model, metrics
+import math
+import sklearn
+import numpy as np
+import pandas as pd
+from sklearn import tree, ensemble 
+
+
+# Генерация датасетов и разделение выборки на обучающую и тестовую
+
+# Генерация датасета digits
+digits = datasets.load_digits()
+print digits.data.shape
+print digits.target.shape
+
+#Разделим выборку на обучающую и тестовую явно, без train_test_split(т.к. train_test_split ее перемешивает, а shuffle= False досутпен в склерн 19.0 и выше - обновить проблематично)
+#int(len(digits.data)*0.75)
+train_data = digits.data[0:int(len(digits.data)*0.75)]
+test_data = digits.data[int(len(digits.data)*0.75)+1:int(len(digits.data))]
+train_labels = digits.target[0:int(len(digits.target)*0.75)]
+test_labels = digits.target[int(len(digits.data)*0.75)+1:int(len(digits.data))]
+test_data.shape
+
+
+# Решим задачу с помощью леса деревьев. Необходимо по условию задания, чтобы сравнить точность с наши 
+
+clf = ensemble.RandomForestClassifier(n_estimators=1000)
+clf.fit(train_data, train_labels)
+predictions = clf.predict(test_data)
+# Посчитаем точность модели - долю ошибок
+metrics.accuracy_score(test_labels, predictions)
+answ2 = 1 - metrics.accuracy_score(test_labels, predictions)
+
+
+# Генерация датасетов и разделение выборки на обучающую и тестовую v 2.0 - деление выборки через train_test_split
+
+# Генерация датасета digits
+digits = datasets.load_digits()
+print digits.data
+print digits.target
+
+## Разделим выборку на обучающую и тестовую c помощью train_test_split. Он выборку перемешивает
+
+from sklearn.model_selection import train_test_split
+train_data, test_data, train_labels, test_labels = model_selection.train_test_split(digits.data, digits.target,
+test_size=0.25, random_state=0 )
+#print train_data.shape
+#print test_data.shape
+
+
+# Проврека версии. train_test_split(...shuffle=False...) доступно с 0.19.2. Обновление проблематично 
+print(sklearn.__version__) 
+
+
+# Функция расчета метрики (Евклидово расстояние в данном случае)
+def dist_n (vector0, vector1):
+        s = 0.
+        for i in range(len(vector0)):
+                      a = (vector0[i] - vector1[i])**2 
+                      s = s + a                
+        return math.sqrt(s)
+            
+# Test
+a = np.array([2., 3., 3.])
+b = np.array([1., 5., 3.])
+dist_n(a,b)
+
+
+#ver 1 Посчитаем матрицу удаленности для одного вектора тестового набора от всех векторов обучающей выборки и запишем в одномерный массив
+testDist_mas = np.array([])
+for testPoint in test_data:
+    for j in range(len(train_data)):
+        testDist= [ dist_n(testPoint,train_data[j]) ]
+        testDist_mas = np.append(testDist_mas,testDist)
+        
+
+#ver 2 Посчитаем матрицу удаленности для одного вектора тестового набора от всех векторов обучающей выборки и запишем в двумерный массив c выводом метки класса обучающй выборки
+testDist_m= list()
+for testPoint in test_data:
+    testDist = [[dist_n(testPoint,train_data[j]),train_labels[j]] for j in range(len(train_data)) ]
+    testDist_m.append(testDist)
+    
+    
+#ver 3 Посчитаем  и отсортируем матрицу удаленности для одного вектора тестового набора от всех векторов обучающей выборки и запишем в двумерный массив c выводом метки класса обучающй выборки
+testDist_m= list()
+for testPoint in test_data:
+    testDist = [[dist_n(testPoint,train_data[j]),train_labels[j]] for j in range(len(train_data)) ]
+    testDist_sort=sorted(testDist) # sorted а не list.sort потому что сорт не сохраняет новый массив
+    testDist_m.append(testDist_sort)
+    
+    
+#Полученный выше testDist_m - массив из 450 элементов, каждый из которых массив 1347 X 2 -
+# - расстояние от каждого вектора обучающей выборки до тестового вектора и метка класса вектора обучающей выборки.
+# Причем, каждый массив отсортирован по возрасстанию расстояния.
+# Остается взять первый(т.к у нас один сосед) элемент каждого из 450 массивов [0] и значение метки класса [1] 
+test_labels_rasch_m= list()
+for k in range(len(test_data)):
+    test_labels_rasch = testDist_m[k][0][1]
+    test_labels_rasch_m.append(test_labels_rasch)
+
+print test_labels
+print test_labels_rasch_m
+
+
+#Посчитаем точность модели подручными средствами
+acc=sum([int(test_labels_rasch_m[i]==test_labels[i]) for i in range(len(test_data))]) / float(len(test_data))
+print "Accuracy: ", acc
+# Доля ошибок:
+1- acc
+
+
+# Запишем ответ в файл
+def write_answer_nn(optimal_neurons_num):
+    with open("1nn_answer2.txt", "w") as fout:
+        fout.write(str(optimal_neurons_num))
+
+#write_answer_nn(1-acc)
+
+
+
+#!!!!! Добавление элемента массива в функции
+w = np.array([])
+for j in range(len(train_data)):
+    #k = [j]
+    w = np.append(w, j)
+    print w
+    
+    
+# Добавление элемента массива в функции
+w = np.array([])
+for j in range(len(train_data)):
+    #k = [j]
+    w = np.append(w, j)
+    n = [w, len(train_data)]
+    print n
+    
+    
+# Объявление листа
+a = [[i,i]for i in range(len(train_data))]
+a.sort()
+a
+
+
+#!!!!!!! Лист в массив
+a = [[i,i]for i in range(len(train_data))]
+print a
+#a это лист
+# сделаем из листа массив b
+b = np.array(a)
+b.shape
