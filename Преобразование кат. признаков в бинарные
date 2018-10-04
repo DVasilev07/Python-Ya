@@ -1,0 +1,11 @@
+from sklearn.linear_model import LogisticRegression as LR
+from sklearn.feature_extraction import DictVectorizer as DV
+
+categorial_data = pd.DataFrame({'sex': ['male', 'female', 'male', 'female'], 
+                                'nationality': ['American', 'European', 'Asian', 'European']})
+print('Исходные данные:\n')
+print(categorial_data)
+encoder = DV(sparse = False)
+encoded_data = encoder.fit_transform(categorial_data.T.to_dict().values())
+print('\nЗакодированные данные:\n')
+print(encoded_data)
