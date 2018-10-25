@@ -1,4 +1,15 @@
 import pandas as pd
 
-# Считываем данные
+# Считывание данных
+
 data = pd.read_csv('checkins_result.csv') 
+
+# Манипуляции с данными
+
+
+# Удаление
+# Удаление строк
+X = data.drop(data.index[100000:396634])
+# Удаление столбцов
+X = X.drop('created_at', 1)
+X = X.drop(['id', 'user_id'], axis=1)
