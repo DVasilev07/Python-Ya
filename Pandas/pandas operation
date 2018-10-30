@@ -4,6 +4,18 @@ import pandas as pd
 
 data = pd.read_csv('checkins_result.csv') 
 
+# Создание датафрейма
+rows=[]
+columns = ['cluster_centers','office_dot','dist']
+for i in range(len(cluster_centers)):
+    for j in range(len(Office)):
+        dist = dist_n(cluster_centers[i], Office[j])
+        row = [i,j,dist]
+        rows.append(row)
+     
+distantion = pd.DataFrame(rows, columns=columns)  
+
+
 # Манипуляции с данными
 
 
