@@ -1,0 +1,5 @@
+clf = Pipeline([
+  ('feature_selection', SelectFromModel(LinearSVC(penalty="l1"))),
+  ('classification', RandomForestClassifier())
+])
+clf.fit(X, y)
