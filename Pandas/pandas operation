@@ -48,4 +48,4 @@ X['clust'] = preds
 X.loc[X['clust'] == 5] 
 # Количество элементов по условиям
 X.loc[X['clust'] ==0].count()
-len(X.index[X['clust'] ==0].tolist())
+len(X.index[X['clust'] ==100].tolist())
