@@ -1,0 +1,8 @@
+## format(i) нужен т к интеджеры не принимает
+npar = ['a']
+npar[0]
+with open('csvfile_test.csv','w') as file:
+    for i in range(1,D):
+        file.write(format(i))
+        file.write(npar[0])
+        file.write('\n')
