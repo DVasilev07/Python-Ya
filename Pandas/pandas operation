@@ -5,6 +5,7 @@ import pandas as pd
 data = pd.read_csv('checkins_result.csv') 
 
 # Создание датафрейма
+#1
 rows=[]
 columns = ['cluster_centers','office_dot','dist']
 for i in range(len(cluster_centers)):
@@ -14,6 +15,18 @@ for i in range(len(cluster_centers)):
         rows.append(row)
      
 distantion = pd.DataFrame(rows, columns=columns)  
+
+#2
+import pandas as pd
+
+rows = []
+columns = ['i','double','square']
+
+for i in range(6):
+    row = [i, i*2, i*i]
+    rows.append(row)
+
+df = pd.DataFrame(rows, columns=columns)
 
 
 # Манипуляции с данными
