@@ -3,6 +3,11 @@ import pandas as pd
 # Считывание данных
 
 data = pd.read_csv('checkins_result.csv') 
+data = pd.read_csv('subs_csi_train.csv',";")  - парсит по разделителям
+
+fname = r'E:\HL Boot champ\data\train\subs_csi_train.csv'
+data3 = pd.read_csv(fname,";") - скачивает из другой папки
+
 
 # Создание датафрейма
 #1
