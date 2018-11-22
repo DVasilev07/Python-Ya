@@ -54,3 +54,44 @@ X.loc[X['clust'] == 5]
 # Количество элементов по условиям
 X.loc[X['clust'] ==0].count()
 len(X.index[X['clust'] ==100].tolist())
+
+Операция: выбор столбца.
+
+In [6]: df['count']
+Out[6]:
+a 10
+b 20
+c 30
+Name: count, dtype: int32
+
+Операция: выбор строки по метке.
+
+In [7]: df.loc['a']
+Out[7]:
+count 10
+price 1
+Name: a, dtype: int32
+
+Операция: выбор строки по индексу.
+
+In [8]: df.iloc[1]
+Out[8]:
+count 20
+price 2
+Name: b, dtype: int32
+
+Операция: slice по строкам.
+
+In [9]: df[0:2]
+Out[9]:
+  count price
+a    10     1
+b    20     2
+
+Операция: выбор строк, отвечающих условию.
+
+In [10]: df[df['count'] >= 20]
+Out[10]:
+  count price
+b    20     2
+c    30     3 
