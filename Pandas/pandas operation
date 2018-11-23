@@ -4,6 +4,7 @@ import pandas as pd
 
 data = pd.read_csv('checkins_result.csv') 
 data = pd.read_csv('subs_csi_train.csv',";",nrows=20)  - парсит по разделителям; считвает nrows строк
+data_subs_f = pd.read_csv('subs_features_train.csv',';',decimal=',',parse_dates=['SNAP_DATE']) - парсит даты
 
 fname = r'E:\HL Boot champ\data\train\subs_csi_train.csv'
 data3 = pd.read_csv(fname,";") - скачивает из другой папки
@@ -36,6 +37,9 @@ df = pd.DataFrame(rows, columns=columns)
 
 # Манипуляции с данными
 
+# Показать количество уникальных значений по столбцам (объем словаря)
+df.nunique()
+
 
 # Удаление
 # Удаление строк
@@ -49,16 +53,19 @@ X = X.drop(['id', 'user_id'], axis=1)
 X['clust'] = preds
 
 
+# Сортировка по столбцам
+data_subs_f = data_subs_f.sort_values(['SK_ID','SNAP_DATE'])
+
 # Выбор элементов по условиям
 X.loc[X['clust'] == 5] 
 # Количество элементов по условиям
 X.loc[X['clust'] ==0].count()
 len(X.index[X['clust'] ==100].tolist())
 
-Отобразить 16 строк такие то столбцы
+# Отобразить 16 строк такие то столбцы
 data.iloc[0:15,9:25]
 
-Операция: выбор столбца.
+#Операция: выбор столбца.
 
 In [6]: df['count']
 Out[6]:
@@ -67,7 +74,7 @@ b 20
 c 30
 Name: count, dtype: int32
 
-Операция: выбор строки по метке.
+#Операция: выбор строки по метке.
 
 In [7]: df.loc['a']
 Out[7]:
@@ -75,7 +82,7 @@ count 10
 price 1
 Name: a, dtype: int32
 
-Операция: выбор строки по индексу.
+#Операция: выбор строки по индексу.
 
 In [8]: df.iloc[1]
 Out[8]:
@@ -83,7 +90,7 @@ count 20
 price 2
 Name: b, dtype: int32
 
-Операция: slice по строкам.
+#Операция: slice по строкам.
 
 In [9]: df[0:2]
 Out[9]:
@@ -91,10 +98,12 @@ Out[9]:
 a    10     1
 b    20     2
 
-Операция: выбор строк, отвечающих условию.
+#Операция: выбор строк, отвечающих условию.
 
 In [10]: df[df['count'] >= 20]
 Out[10]:
   count price
 b    20     2
 c    30     3 
+
+# 
