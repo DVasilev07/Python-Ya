@@ -55,6 +55,9 @@ X.loc[X['clust'] == 5]
 X.loc[X['clust'] ==0].count()
 len(X.index[X['clust'] ==100].tolist())
 
+Отобразить 16 строк такие то столбцы
+data.iloc[0:15,9:25]
+
 Операция: выбор столбца.
 
 In [6]: df['count']
