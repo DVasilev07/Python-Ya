@@ -34,6 +34,9 @@ for i in range(6):
 
 df = pd.DataFrame(rows, columns=columns)
 
+#
+data_subs_f_cat = pd.DataFrame(data=data_subs_f[categorical_cols])
+
 
 # Манипуляции с данными
 
