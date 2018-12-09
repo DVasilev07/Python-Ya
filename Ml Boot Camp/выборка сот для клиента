@@ -1,0 +1,11 @@
+%%time
+columns = ['SK_ID','CELL_LAC_ID']
+best_cons_array_d = []
+for i in range(len(data_subs_d_ses_sort['SK_ID'])):
+    ser = data_subs_d_ses_sort['CELL_LAC_ID'].loc[data_subs_d_ses_sort['SK_ID'] == i].value_counts()
+    cells = ser[0:5]
+    for j in range(len(cells)):
+        row = [i,cells.index[j]]
+        best_cons_array_d.append(row) 
+
+best_cons_d = pd.DataFrame(best_cons_array_d, columns=columns)
