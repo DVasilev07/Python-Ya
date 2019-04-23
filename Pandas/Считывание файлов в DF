@@ -1,0 +1,26 @@
+import pandas as pd
+import numpy as np
+import sklearn 
+
+# Считывание файлов из папки в df
+
+import glob
+import pandas as pd
+files = glob.glob(r'C:\Users\DAVasiliev\Desktop\pdx\PDX_frcst\*.zip', recursive=True)
+cont = []
+for i in range(len(files)):
+    df = pd.read_csv(files[i],'|', decimal='.', parse_dates=['Week'])
+    df_date = ( files[i][-12:-4],df)
+    cont.append(df_date)
+    
+
+# Считывание файлов из папки в один(!) df
+
+import glob
+import pandas as pd
+df = []
+files = glob.glob(r'C:\Users\DAVasiliev\Desktop\pdx\PDX_frcst\*.zip', recursive=True)
+frames = []
+for i in range(len(files)):
+    df.append(pd.read_csv(files[i],'|', decimal='.', parse_dates=['Week']))
+frames = pd.concat(df)
