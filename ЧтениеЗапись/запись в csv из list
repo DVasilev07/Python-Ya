@@ -1,0 +1,11 @@
+# ВЫгружаем для подгрузки в BW
+import csv
+
+res = sku_list2[0:20]
+csvfile = "pdx_fcst_sku_list"
+
+#Assuming res is a flat list
+with open(csvfile, "w") as output:
+    writer = csv.writer(output, lineterminator='\n')
+    for val in res:
+        writer.writerow([val]) 
